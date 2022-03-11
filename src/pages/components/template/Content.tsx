@@ -1,5 +1,5 @@
 interface ContentProps{
-    children: any
+    children?: any
 }
 export function Content(props: ContentProps) {
     return ( 
