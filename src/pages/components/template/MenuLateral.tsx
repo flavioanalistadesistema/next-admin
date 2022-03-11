@@ -6,7 +6,7 @@ export function MenuLateral() {
         <div>
             <aside>
                 <ul>
-                    <MenuItem title="Inicio" url="/Home" icon={IconHome}/>
+                    <MenuItem title="Inicio" url="/" icon={IconHome}/>
                     <MenuItem title="Ajuste" url="/Adjustments" icon={IconAdjustments}/>
                     <MenuItem title="Notificações" url="/Notifications" icon={IconNotifications}/>
                 </ul>
