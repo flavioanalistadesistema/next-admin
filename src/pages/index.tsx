@@ -1,12 +1,10 @@
+import { Layout } from "./components/template/Layout";
 
 
 export default function Home() {
   return (
-    <h1 className={`
-      flex justify-center items-center h-screen
-      bg-gradient-to-r from-green-500 to-blue-500
-    `}>
-      Hello world!
-    </h1>
+    <Layout title="Página inicial" subtext="Estamos construindo uma nova pagina Admin">
+      <h3>Conteudo!!!</h3>
+    </Layout>
   )
 }
