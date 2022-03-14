@@ -17,6 +17,7 @@ export function MenuItem(props: MenuItemPropos) {
                 justify-center 
                 items-center 
                 text-gray-600
+                dark:text-gray-200
                 h-20 
                 w-20
                 ${props.className}`}>
@@ -32,6 +33,7 @@ export function MenuItem(props: MenuItemPropos) {
         <div>
             <li onClick={props.onClick} className={`
             hover:bg-gray-100 
+            dark:hover:bg-gray-800 
             cursor-pointer
             `}>
                 {props.url ? (
