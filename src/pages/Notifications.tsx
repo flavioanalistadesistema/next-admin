@@ -3,6 +3,7 @@ import useAppData from "../data/hook/useAppData";
 
 
 export default function Notifications() {
+  
   const data = useAppData();
 
   return (
