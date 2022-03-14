@@ -3,12 +3,13 @@ import useAppData from "../data/hook/useAppData";
 
 
 export default function Notifications() {
-  
-  const data = useAppData();
+
+  const {alterThema} = useAppData();
 
   return (
+
     <Layout title="Notificações" subtext="Aqui teremos nossas notificações">
-      <h3>{data.name}</h3>
+      <button onClick={alterThema}>alter Thema</button>
     </Layout>
   )
 }
