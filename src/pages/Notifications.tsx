@@ -9,7 +9,7 @@ export default function Notifications() {
   return (
 
     <Layout title="Notificações" subtext="Aqui teremos nossas notificações">
-      <h3>Notifications</h3>
+      <button onClick={alterThema}>alter Thema</button>
     </Layout>
   )
 }
