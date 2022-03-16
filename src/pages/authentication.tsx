@@ -1,19 +1,27 @@
 import { useState } from "react"
 import InputAuthentication from "../components/authentication/inputAuthentication"
-import { IconGoogle } from "../components/icon"
+import { IconExclamation, IconGoogle } from "../components/icon"
 
 export default function Authentication(props) {
     type typeModel = 'login' | 'cadastro'
 
+    const [error, setError] = useState(null)
     const [model, setModel] = useState<typeModel>('login')
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
 
+    function viewError(msg, time = 5) {
+        setError(msg);
+        setTimeout(() => setError(null), time * 1000 )
+    }
+
     function Submit() {
         if (model === 'login') {
             console.log('login');
+            viewError('Ocorreu um erro no Login', 2)
         } else {
             console.log('cadastrar');
+            viewError('Ocorreu um erro no Cadastro')
 
         }
     }
@@ -31,6 +39,23 @@ export default function Authentication(props) {
                     `}>
                     {model === 'login' ? 'Entre com sua conta' : 'Cadastra-se na plataforma'}
                 </h1>
+                
+                {error ? (
+                    <div className={`
+                        flex
+                        bg-red-600 px-4 py-4 mt-4
+                        border border-red-700 rounded-lg
+                        text-white
+                    `}>
+                        {IconExclamation()} 
+                        <span className={`
+                            items-center ml-2
+                        `}>
+                            {error}
+                        </span>
+                    </div>
+                ): false}
+
                 <InputAuthentication
                     type="email"
                     label="Email"
