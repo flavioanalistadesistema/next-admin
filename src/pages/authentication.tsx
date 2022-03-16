@@ -18,10 +18,16 @@ export default function Authentication(props) {
         }
     }
     return (
-        <div className={`flex flex-col h-screen justify-center items-center`}>
-            <div className="w-1/2">
+        <div className={`flex h-screen justify-center items-center`}>
+            <div className={`hidden md:block md:w-1/2 lg:w-2/3`}>
+                <img 
+                    src="https://source.unsplash.com/random" 
+                    alt="Login Admin"
+                    className={`h-screen w-full object-cover`} />
+            </div>
+            <div className="m-10 w-full md:w-1/2 lg:w-1/3">
                 <h1 className={`
-                    text-xl font-bold mb-4
+                    text-3xl font-bold mb-4
                     `}>
                     {model === 'login' ? 'Entre com sua conta' : 'Cadastra-se na plataforma'}
                 </h1>
@@ -61,6 +67,25 @@ export default function Authentication(props) {
                 `}>
                     {IconGoogle(18)} Entrar com Google
                 </button>
+
+                {model === 'login' ? (
+                    <p className="mt-8">
+                        Novo por aqui?
+                        <a onClick={() => setModel('cadastro')} className={`
+                            text-blue-500 hover:text-blue-700 font-semibold
+                            cursor-pointer
+                        `}> Criar uma conta gratuitamente</a>
+                    </p>
+
+                ) : (
+                    <p className="mt-8">
+                        Já faz parte da nossa comunidade?
+                        <a onClick={() => setModel('login')} className={`
+                            text-blue-500 hover:text-blue-700 font-semibold
+                            cursor-pointer
+                        `}> Entre com suas credenciais</a>
+                    </p>
+                )}
             </div>
         </div>
     )
