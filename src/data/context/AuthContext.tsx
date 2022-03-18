@@ -7,6 +7,7 @@ import Cookies from "js-cookie"
 interface AuthContextInterface {
     user?: User
     loginGoogle?: () => Promise<void>
+    logout?: () => Promise<void>
 }
 
 const AuthContext = createContext<AuthContextInterface>({})
@@ -52,24 +53,42 @@ export function AuthProvider(props) {
     }
 
     async function loginGoogle(){
-        const resp = await firebase.auth().signInWithPopup(
-            new firebase.auth.GoogleAuthProvider()
-        )
-        
-        configurationSession(resp.user)
-        router.push('/')
-        
+        try{
+            setLoading(false)
+            const resp = await firebase.auth().signInWithPopup(
+                new firebase.auth.GoogleAuthProvider()
+            )
+            
+            configurationSession(resp.user)
+            router.push('/')
+
+        } finally {
+            setLoading(false)
+        }
+    }
+
+    async function logout() {
+        try{
+            setLoading(true)
+            await firebase.auth().signOut()
+            await configurationSession(false)
+        } finally {
+            setLoading(true)
+        }
     }
 
     useEffect(() => {
-        const funcCanceled = firebase.auth().onIdTokenChanged(configurationSession)
-        return () => funcCanceled()
+        if(Cookies.get('admin-thema-auth')) {
+            const funcCanceled = firebase.auth().onIdTokenChanged(configurationSession)
+            return () => funcCanceled()
+        }
     }, [])
 
     return (
         <AuthContext.Provider value={{
             user,
-            loginGoogle
+            loginGoogle,
+            logout
         }}>
             {props.children}
         </AuthContext.Provider>
