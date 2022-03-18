@@ -1,9 +1,12 @@
 import { useState } from "react"
 import InputAuthentication from "../components/authentication/inputAuthentication"
 import { IconExclamation, IconGoogle } from "../components/icon"
+import useAuth from "../data/hook/useAuth"
 
 export default function Authentication(props) {
     type typeModel = 'login' | 'cadastro'
+
+    const {user, loginGoogle} = useAuth()
 
     const [error, setError] = useState(null)
     const [model, setModel] = useState<typeModel>('login')
@@ -85,7 +88,7 @@ export default function Authentication(props) {
 
                 <hr className={`my-6 border-gray-300 w-full`} />
 
-                <button onClick={Submit} className={`
+                <button onClick={loginGoogle} className={`
                     flex justify-center items-center
                     w-full bg-red-600 border-2 hover:bg-red-400 
                     text-white rounded-lg px-2 py-3
