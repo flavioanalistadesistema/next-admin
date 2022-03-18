@@ -1,7 +1,8 @@
-import { createContext, useState } from "react"
+import { createContext, useEffect, useState } from "react"
 import firebase from "../../firebase/config"
 import User from "../../model/User"
 import router from "next/router"
+import Cookies from "js-cookie"
 
 interface AuthContextInterface {
     user?: User
@@ -23,21 +24,47 @@ async function userNormalize(userFirebase: firebase.User): Promise<User> {
     }
 }
 
+function manageCookie(logged: boolean) {
+    if(logged) {
+        Cookies.set('admin-thema-auth', logged, {
+            expires: 7
+        })
+    } else {
+        Cookies.remove('admin-thema-auth')
+    }
+}
+
 export function AuthProvider(props) {
+    const [loading, setLoading] = useState(true)
     const [user, setUser] = useState<User>(null)
+
+    async function configurationSession(userFirebase) {
+        if(userFirebase?.email) {
+            const user = await userNormalize(userFirebase)
+            manageCookie(true)
+            setUser(user)
+            return user.email
+        }else {
+            manageCookie(false)
+            setUser(null)
+            return false
+        }
+    }
 
     async function loginGoogle(){
         const resp = await firebase.auth().signInWithPopup(
             new firebase.auth.GoogleAuthProvider()
         )
         
-        if(resp.user?.email) {
-            const  user = await userNormalize(resp.user)            
-            setUser(user)
-            router.push('/')
-        }
+        configurationSession(resp.user)
+        router.push('/')
         
     }
+
+    useEffect(() => {
+        const funcCanceled = firebase.auth().onIdTokenChanged(configurationSession)
+        return () => funcCanceled()
+    }, [])
 
     return (
         <AuthContext.Provider value={{
