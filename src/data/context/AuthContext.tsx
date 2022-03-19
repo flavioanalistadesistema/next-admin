@@ -6,6 +6,7 @@ import Cookies from "js-cookie"
 
 interface AuthContextInterface {
     user?: User
+    loading?: boolean
     loginGoogle?: () => Promise<void>
     logout?: () => Promise<void>
 }
@@ -73,7 +74,7 @@ export function AuthProvider(props) {
             await firebase.auth().signOut()
             await configurationSession(false)
         } finally {
-            setLoading(true)
+            setLoading(false)
         }
     }
 
@@ -81,6 +82,8 @@ export function AuthProvider(props) {
         if(Cookies.get('admin-thema-auth')) {
             const funcCanceled = firebase.auth().onIdTokenChanged(configurationSession)
             return () => funcCanceled()
+        } else {
+            setLoading(false)
         }
     }, [])
 
@@ -88,7 +91,8 @@ export function AuthProvider(props) {
         <AuthContext.Provider value={{
             user,
             loginGoogle,
-            logout
+            logout,
+            loading
         }}>
             {props.children}
         </AuthContext.Provider>
