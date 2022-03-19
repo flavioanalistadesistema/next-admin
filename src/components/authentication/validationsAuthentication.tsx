@@ -1,3 +1,4 @@
+import Head from "next/head"
 import Image from "next/image"
 import Router from "next/router"
 import Loading from "../../../public/images/loading.gif"
@@ -10,6 +11,18 @@ export default function ValidationsAuthentication(props) {
     function renderContext() {
         return (
             <>
+                <Head>
+                    <script
+                        dangerouslySetInnerHTML={{
+                            __html: 
+                            `
+                                if(!document.cookie.includes("admin-thema-auth")) {
+                                    window.location.href="/authentication"
+                                }
+                            `
+                        }}
+                    />
+                </Head>
                 <div>
                     {props.children}
                 </div>
@@ -26,7 +39,7 @@ export default function ValidationsAuthentication(props) {
             </div>
         )
     }
-    
+
     if (!loading && user?.email) {
         return renderContext()
     } else if (loading) {
