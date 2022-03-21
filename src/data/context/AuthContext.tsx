@@ -45,10 +45,12 @@ export function AuthProvider(props) {
             const user = await userNormalize(userFirebase)
             manageCookie(true)
             setUser(user)
+            setLoading(false)
             return user.email
         }else {
             manageCookie(false)
             setUser(null)
+            setLoading(false)
             return false
         }
     }
