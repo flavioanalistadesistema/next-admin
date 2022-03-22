@@ -6,6 +6,9 @@ import Cookies from "js-cookie"
 
 interface AuthContextInterface {
     user?: User
+    loading?: boolean
+    register?: (email: string, password: string) => Promise<void>
+    login?: (email: string, password: string) => Promise<void>
     loginGoogle?: () => Promise<void>
     logout?: () => Promise<void>
 }
@@ -44,11 +47,39 @@ export function AuthProvider(props) {
             const user = await userNormalize(userFirebase)
             manageCookie(true)
             setUser(user)
+            setLoading(false)
             return user.email
         }else {
             manageCookie(false)
             setUser(null)
+            setLoading(false)
             return false
+        }
+    }
+
+    async function register(email: string, password: string){
+        try{
+            setLoading(true)
+            const resp = await firebase.auth().createUserWithEmailAndPassword(email, password)
+            
+            await configurationSession(resp.user)
+            router.push('/')
+
+        } finally {
+            setLoading(false)
+        }
+    }
+
+    async function login(email: string, password: string){
+        try{            
+            setLoading(true)
+            const resp = await firebase.auth().signInWithEmailAndPassword(email, password)
+            
+            await configurationSession(resp.user)
+            router.push('/')
+
+        } finally {
+            setLoading(false)
         }
     }
 
@@ -59,7 +90,7 @@ export function AuthProvider(props) {
                 new firebase.auth.GoogleAuthProvider()
             )
             
-            configurationSession(resp.user)
+            await configurationSession(resp.user)
             router.push('/')
 
         } finally {
@@ -73,7 +104,7 @@ export function AuthProvider(props) {
             await firebase.auth().signOut()
             await configurationSession(false)
         } finally {
-            setLoading(true)
+            setLoading(false)
         }
     }
 
@@ -81,14 +112,19 @@ export function AuthProvider(props) {
         if(Cookies.get('admin-thema-auth')) {
             const funcCanceled = firebase.auth().onIdTokenChanged(configurationSession)
             return () => funcCanceled()
+        } else {
+            setLoading(false)
         }
     }, [])
 
     return (
         <AuthContext.Provider value={{
             user,
+            register,
+            login,
             loginGoogle,
-            logout
+            logout,
+            loading
         }}>
             {props.children}
         </AuthContext.Provider>

@@ -6,7 +6,7 @@ import useAuth from "../data/hook/useAuth"
 export default function Authentication(props) {
     type typeModel = 'login' | 'cadastro'
 
-    const {user, loginGoogle} = useAuth()
+    const { register, login, loginGoogle } = useAuth()
 
     const [error, setError] = useState(null)
     const [model, setModel] = useState<typeModel>('login')
@@ -15,24 +15,26 @@ export default function Authentication(props) {
 
     function viewError(msg, time = 5) {
         setError(msg);
-        setTimeout(() => setError(null), time * 1000 )
+        setTimeout(() => setError(null), time * 1000)
     }
 
-    function Submit() {
-        if (model === 'login') {
-            console.log('login');
-            viewError('Ocorreu um erro no Login', 2)
-        } else {
-            console.log('cadastrar');
-            viewError('Ocorreu um erro no Cadastro')
+    async function Submit() {
+        try {
+            if (model === 'login') {
+                await login(email, password)
+            } else {
+                await register(email, password)
+            }
 
+        } catch (e) {
+            viewError(e.message)
         }
     }
     return (
         <div className={`flex h-screen justify-center items-center`}>
             <div className={`hidden md:block md:w-1/2 lg:w-2/3`}>
-                <img 
-                    src="https://source.unsplash.com/random" 
+                <img
+                    src="https://source.unsplash.com/random"
                     alt="Login Admin"
                     className={`h-screen w-full object-cover`} />
             </div>
@@ -42,7 +44,7 @@ export default function Authentication(props) {
                     `}>
                     {model === 'login' ? 'Entre com sua conta' : 'Cadastra-se na plataforma'}
                 </h1>
-                
+
                 {error ? (
                     <div className={`
                         flex
@@ -50,14 +52,14 @@ export default function Authentication(props) {
                         border border-red-700 rounded-lg
                         text-white
                     `}>
-                        {IconExclamation()} 
+                        {IconExclamation()}
                         <span className={`
                             items-center ml-2
                         `}>
                             {error}
                         </span>
                     </div>
-                ): false}
+                ) : false}
 
                 <InputAuthentication
                     type="email"
