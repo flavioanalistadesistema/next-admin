@@ -27,7 +27,7 @@ export default function Authentication(props) {
             }
 
         } catch (e) {
-            viewError(e.message)
+            viewError(e?.message ?? 'Erro não identificado!!')
         }
     }
     return (
