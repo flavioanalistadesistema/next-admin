@@ -12,23 +12,23 @@ yarn dev
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
+List of what was used to develop this project:
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.js`.
+*   ## Tailwind css : [tailwind](https://tailwindcss.com/)
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+`Tailwind make it easy to be consistent with color choices, spacing, typography, shadows, and everything else that makes up a well-engineered design system.`
 
-## Learn More
+*   ## API Context/Hook [API Context](https://pt-br.reactjs.org/docs/context.html)
 
-To learn more about Next.js, take a look at the following resources:
+`API Context is suitable for sharing data that can be considered global. Hooks play a key role in creating each context`
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+*   ## Firebase : [Firebase](https://firebase.google.com/)
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+`Firebase helps build and run apps, in this project I used firebase authentication service`
 
-## Deploy on Vercel
+Every layout follows the responsive pattern, also developed to change the theme colors, working well on all devices and following good development practices.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+[Project link in production](https://next-admin-phi.vercel.app/)
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+
+
